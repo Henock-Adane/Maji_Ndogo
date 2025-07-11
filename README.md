@@ -16,6 +16,10 @@ The work is structured into two main phases:
    - Extensive data cleaning and transformation to ensure data integrity.
    - Detailed analysis of employee performance and location-based patterns.
    - Preparation for clustering techniques to uncover broader narratives and hidden correlations related to water access and quality.
+3. **Phase 3: Weaving the Data Threads of Maji Ndogo’s Narrative (Maji Ndogo Part 3)**
+- Validate the integrity of subjective water quality scores submitted by employees.
+- Identify potential data manipulation or systemic issues.
+- Use SQL to trace inconsistencies to specific employees and locations.
 
 ## 📌 Objectives
 
@@ -31,13 +35,14 @@ The primary objectives of this project are to:
 
 ## 📂 Project Structure
 
+
 ```
-.
 ├── data/
 │   ├── queue_time_for_days_and_hours.xlsx
 │   └── visits.csv                      # Cleaned/Processed CSV data related to visits
 ├── notebooks/
-│   └── Integrated project Clustering data to unveil Maji Ndogo's water crisis.ipynb  # Jupyter Notebook with all SQL queries and analysis
+│   └── Integrated_project_Clustering_data_to_unveil_Maji_Ndogo's_water_crisis.ipynb  # Jupyter Notebook with all SQL queries and analysis
+    └── Integrated_project_Weaving_the_data_threads_of_Maji_Ndogos_narrative.ipynb # Jupyter Notebook
 └── README.md                          # This overview file
 ```
 
@@ -76,12 +81,44 @@ Throughout this project, we've executed various SQL queries and conducted analys
 ### Queue Time Analysis on Shared Taps:
 - Queue time was analyzed for all days of the week and across each hour in a single day.
 - Final summary is provided in the notebook based on the results.
+### Adding Auditor Report and Evaluation
+- **Import Auditor Report:**
+  - Structured the `auditor_report.csv` into a SQL table.
+  - Fields: `location_id`, `true_water_source_score`, `type_of_water_source`, `statements`.
+
+- **Score Comparison (Surveyor vs. Auditor):**
+  - Joined the auditor table with the internal `visits` and `water_quality` tables.
+  - Compared each surveyor’s `subjective_quality_score` with the auditor’s `true_water_source_score`.
+
+- **Error Detection & Isolation:**
+  - Found that 102 out of 1620 reviewed records contained mismatches.
+  - Verified that water source types were still consistent across datasets.
+
+- **Employee Accountability:**
+  - Identified employees responsible for mismatched data by joining `assigned_employee_id`.
+  - Created a view `Incorrect_records` to streamline further analysis.
+
+- **Error Frequency Analysis:**
+  - Counted how many mismatches each employee submitted.
+  - Highlighted those with above-average error counts using CTEs (`error_count`, `suspect_list`).
+
+- **Corruption Red Flags (Qualitative Review):**
+  - Queried auditor-provided `statements` to identify references to potential bribery (e.g., “cash”).
+  - Confirmed that only a small group of employees appeared repeatedly in both numeric and narrative inconsistencies.
+
+### 🧠 Final Outcome
+
+- 4 employees were flagged for further investigation:
+  - **Above-average error counts**
+  - **Recurring mentions of bribes or irregularities in statements**
+- This analysis helps leadership take targeted action to restore data reliability and improve accountability in Maji Ndogo’s water service program.
 
 ## 💡 Tools Used
 
 - **SQL (with Jupyter Notebook / Python integration):** For all data querying, cleaning, transformation, and analysis.
 - **Jupyter Notebook:** For an interactive environment to write and execute SQL, document findings.
 - **Microsoft Excel / CSV:** For visualizing queue times with charts and pivot tables.
+
 
 ## 📬 Contact
 
