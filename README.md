@@ -5,7 +5,7 @@
 
 This repository contains the data analysis project focused on understanding and addressing the water crisis in Maji Ndogo. The project leverages a comprehensive dataset of water source visits, quality assessments, and employee activities to identify patterns, clean data, and derive actionable insights.
 
-The work is structured into two main phases:
+The work is structured into multiple phases:
 
 1. **Phase 1: Initial Data Exploration & Quality Assessment (Maji Ndogo Part 1)**
    - Familiarization with foundational tables and their interconnections.
@@ -16,10 +16,18 @@ The work is structured into two main phases:
    - Extensive data cleaning and transformation to ensure data integrity.
    - Detailed analysis of employee performance and location-based patterns.
    - Preparation for clustering techniques to uncover broader narratives and hidden correlations related to water access and quality.
+
 3. **Phase 3: Weaving the Data Threads of Maji Ndogo’s Narrative (Maji Ndogo Part 3)**
-- Validate the integrity of subjective water quality scores submitted by employees.
-- Identify potential data manipulation or systemic issues.
-- Use SQL to trace inconsistencies to specific employees and locations.
+   - Validate the integrity of subjective water quality scores submitted by employees.
+   - Identify potential data manipulation or systemic issues.
+   - Use SQL to trace inconsistencies to specific employees and locations.
+
+4. **Phase 4: From Analysis to Action (Maji Ndogo Part 4)**
+   - Combine survey, water quality, and pollution data into a unified view for planning.
+   - Summarize water source conditions by province and town.
+   - Recommend specific engineering interventions for contaminated or inadequate sources.
+   - Create and populate a `Project_progress` table to track repair initiatives with conditional SQL logic.
+   - Assign improvements based on contamination type, water source condition, and queue time patterns.
 
 ## 📌 Objectives
 
@@ -35,14 +43,14 @@ The primary objectives of this project are to:
 
 ## 📂 Project Structure
 
-
 ```
 ├── data/
 │   ├── queue_time_for_days_and_hours.xlsx
 │   └── visits.csv                      # Cleaned/Processed CSV data related to visits
 ├── notebooks/
 │   └── Integrated_project_Clustering_data_to_unveil_Maji_Ndogo's_water_crisis.ipynb  # Jupyter Notebook with all SQL queries and analysis
-    └── Integrated_project_Weaving_the_data_threads_of_Maji_Ndogos_narrative.ipynb # Jupyter Notebook
+│   └── Integrated_project_Weaving_the_data_threads_of_Maji_Ndogos_narrative.ipynb     # Audit investigation notebook
+│   └── Charting_the_course_for_Maji_Ndogo's_water_future.ipynb                                           # Repair plan and engineering actions
 └── README.md                          # This overview file
 ```
 
@@ -106,19 +114,39 @@ Throughout this project, we've executed various SQL queries and conducted analys
   - Queried auditor-provided `statements` to identify references to potential bribery (e.g., “cash”).
   - Confirmed that only a small group of employees appeared repeatedly in both numeric and narrative inconsistencies.
 
-### 🧠 Final Outcome
+### Final Outcome
 
 - 4 employees were flagged for further investigation:
   - **Above-average error counts**
   - **Recurring mentions of bribes or irregularities in statements**
 - This analysis helps leadership take targeted action to restore data reliability and improve accountability in Maji Ndogo’s water service program.
 
+### Final Repair Plan Logic (Maji Ndogo Part 4)
+
+- **Created `combined_analysis_table`** by joining `visits`, `location`, `water_source`, and `well_pollution`, filtered to `visit_count = 1`.
+
+- **Province- and Town-level summaries**:
+  - Calculated percentage of people using each source type per region.
+  - Identified hotspots needing infrastructure upgrades or new water sources.
+
+- **Created `Project_progress` table** to manage intervention projects:
+  - Tracks source ID, location, proposed fix, and completion status.
+
+- **Populated `Project_progress` using conditional SQL:**
+  - **Wells**:
+    - `Contaminated: Biological` → `Install UV and RO filter`
+    - `Contaminated: Chemical` → `Install RO filter`
+  - **Shared taps** with `queue_time >= 30` → `Install X taps nearby`
+  - **Tap in home broken** → `Diagnose local infrastructure`
+  - **Rivers** → `Drill well`
+
+- **Used `UPDATE` statements with `CASE` and `JOINs` or subqueries** to set improvements based on logic described above.
+
 ## 💡 Tools Used
 
 - **SQL (with Jupyter Notebook / Python integration):** For all data querying, cleaning, transformation, and analysis.
 - **Jupyter Notebook:** For an interactive environment to write and execute SQL, document findings.
 - **Microsoft Excel / CSV:** For visualizing queue times with charts and pivot tables.
-
 
 ## 📬 Contact
 
